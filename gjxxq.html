@@ -9,19 +9,17 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
-            overflow: hidden; /* 防止滚动 */
+            background-color: #f0f2f5;
         }
         .container {
             max-width: 800px;
             margin: auto;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            position: relative;
-            transform: translateX(100%); /* 初始位置在右侧 */
-            animation: slideIn 0.5s forwards; /* 动画效果 */
+            padding: 20px;
+            animation: slideIn 0.5s forwards;
         }
         @keyframes slideIn {
             from {
@@ -32,59 +30,84 @@
             }
         }
         .header {
-            padding: 20px;
             text-align: center;
+            margin-bottom: 20px;
+            position: relative; /* 为返回按钮提供定位 */
         }
         .header h1 {
             margin: 0;
-            font-size: 24px;
-        }
-        .header p {
-            color: #777;
-        }
-        .screenshots {
-            display: flex;
-            overflow-x: auto;
-            padding: 10px;
-            align-items: center;
-        }
-        .screenshots img {
-            width: 150px; /* 缩小图片 */
-            height: auto;
-            border-radius: 5px;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-        .description {
-            padding: 20px;
-        }
-        .download-button {
-            display: block;
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center;
-            margin: 20px 0;
+            font-size: 28px;
+            color: #333;
+            display: inline-block; /* 使标题为行内块元素 */
+            vertical-align: middle; /* 垂直居中对齐 */
         }
         .back-button {
             position: absolute;
-            top: 20px; /* 距离顶部 */
+            top: 5px; /* 向上移动15px */
             left: 20px; /* 距离左侧 */
             background: none; /* 无背景 */
             border: none; /* 无边框 */
             cursor: pointer;
             font-size: 24px; /* 图标大小 */
             color: #007bff; /* 图标颜色 */
+            vertical-align: middle; /* 垂直居中对齐 */
         }
         .back-button:hover {
             color: #0056b3; /* 悬停颜色 */
         }
-        /* 放大图层样式 */
+        .header p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            color: #555;
+        }
+        .info {
+            display: flex;
+            align-items: center;
+            white-space: nowrap; /* 防止换行 */
+        }
+        .info span {
+            margin: 0 5px; /* 减小间距 */
+            color: #777; /* 设置为灰色 */
+        }
+        .download-button {
+            background-color: #007bff; /* 蓝色背景 */
+            color: white;
+            border: none;
+            border-radius: 5px; /* 圆角按钮 */
+            padding: 8px 12px; /* 内边距 */
+            font-size: 16px; /* 字体大小 */
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s; /* 平滑过渡效果 */
+            margin-top: 10px; /* 按钮上边距 */
+        }
+        .download-button:hover {
+            background-color: #0056b3; /* 悬停时颜色 */
+            transform: scale(1.05); /* 悬停时放大 */
+        }
+        .screenshots {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            align-items: center;
+        }
+        .screenshots img {
+            width: 160px; /* 缩小图片 */
+            height: auto;
+            border-radius: 8px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .screenshots img:hover {
+            transform: scale(1.05); /* 图片悬停时放大 */
+        }
+        .description {
+            padding: 20px;
+            text-align: justify;
+            color: #444;
+        }
         .lightbox {
             display: none;
             position: fixed;
@@ -99,15 +122,26 @@
         .lightbox img {
             max-width: 90%;
             max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <button class="back-button" onclick="window.location.href='index.html'">←</button>
         <div class="header">
+            <button class="back-button" onclick="window.location.href='index.html'">←</button>
             <h1>工具箱</h1>
-            <p>版本: v1.3.5 | 类别: 工具 | 价格: 免费</p>
+            <p class="info">
+                <span>版本: v1.3.5</span>
+                <span>|</span>
+                <span>类别: 工具</span>
+                <span>|</span>
+                <span class="price">价格: 免费</span>
+            </p>
+            <button class="download-button" onclick="startVerification()">
+                下载
+            </button>
         </div>
         <div class="screenshots">
             <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/cWtqgrKE1SZIDbP.png')">
@@ -122,9 +156,8 @@
         </div>
         <div class="description">
             <h2>应用描述</h2>
-            <p>多功能应用，集成了许多有意思的功能和游戏。</p>
+            <p>多功能应用，集成了许多有意思的功能和游戏，旨在提高用户的日常效率和娱乐体验。</p>
         </div>
-        <button class="download-button" onclick="window.location.href='https://www.123865.com/s/adRijv-8gOR'">下载</button>
     </div>
 
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
@@ -139,6 +172,22 @@
 
         function closeLightbox() {
             document.getElementById('lightbox').style.display = 'none';
+        }
+
+        function startVerification() {
+            const num1 = Math.floor(Math.random() * 100);
+            const num2 = Math.floor(Math.random() * 100);
+            const operator = Math.random() < 0.5 ? '+' : '-';
+            const question = `${num1} ${operator} ${num2}`;
+            const answer = operator === '+' ? num1 + num2 : num1 - num2;
+
+            const userAnswer = prompt(`请解答以下问题以继续下载:\n${question}`);
+
+            if (parseInt(userAnswer) === answer) {
+                window.location.href = 'https://www.123865.com/s/adRijv-8gOR'; // 下载链接
+            } else {
+                alert('答案错误，请重试。');
+            }
         }
     </script>
 </body>
