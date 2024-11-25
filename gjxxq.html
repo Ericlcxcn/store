@@ -10,8 +10,8 @@
             margin: 0;
             padding: 0;
             background-color: #f0f2f5;
-            overflow: hidden;
-            height: 100vh;
+            overflow: hidden; /* 禁止滚动 */
+            height: 100vh; /* 使body占满整个视口高度 */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -40,52 +40,67 @@
             background: rgba(0, 123, 255, 0.5);
             top: 15%;
             left: 15%;
-            animation-delay: 0.75s;
+            animation-delay: 0.75s; /* 延迟波动开始 */
         }
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
         @keyframes wave {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
         }
         .container {
-            width: 75%;
-            height: 90%;
+            width: 75%; /* 容器宽度占75% */
+            height: 90%; /* 容器高度占90% */
             background: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
+            overflow-y: auto; /* 允许上下滚动 */
             padding: 20px;
             animation: slideIn 0.5s forwards;
         }
         @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
         }
         .header {
             text-align: center;
             margin-bottom: 20px;
-            position: relative;
+            position: relative; /* 为返回按钮提供定位 */
         }
         .header h1 {
             margin: 0;
             font-size: 28px;
             color: #333;
+            display: inline-block; /* 使标题为行内块元素 */
+            vertical-align: middle; /* 垂直居中对齐 */
         }
         .back-button {
             position: absolute;
-            top: 5px;
-            left: 20px;
-            background: none;
-            border: none;
+            top: 5px; /* 向上移动 */
+            left: 20px; /* 距离左侧 */
+            background: none; /* 无背景 */
+            border: none; /* 无边框 */
             cursor: pointer;
-            font-size: 24px;
-            color: #007bff;
+            font-size: 24px; /* 图标大小 */
+            color: #007bff; /* 图标颜色 */
+            vertical-align: middle; /* 垂直居中对齐 */
         }
         .back-button:hover {
-            color: #0056b3;
+            color: #0056b3; /* 悬停颜色 */
         }
         .header p {
             display: flex;
@@ -94,18 +109,51 @@
             margin: 10px 0;
             color: #555;
         }
+        .info {
+            display: flex;
+            align-items: center;
+            white-space: nowrap; /* 防止换行 */
+        }
+        .info span {
+            margin: 0 5px; /* 减小间距 */
+            color: #777; /* 设置为灰色 */
+        }
         .download-button {
-            background-color: #007bff;
+            background-color: #007bff; /* 蓝色背景 */
             color: white;
             border: none;
-            border-radius: 5px;
-            padding: 8px 12px;
-            font-size: 16px;
+            border-radius: 5px; /* 圆角按钮 */
+            padding: 8px 12px; /* 内边距 */
+            font-size: 16px; /* 字体大小 */
             cursor: pointer;
-            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.3s; /* 平滑过渡效果 */
+            margin-top: 10px; /* 按钮上边距 */
         }
         .download-button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* 悬停时颜色 */
+            transform: scale(1.05); /* 悬停时放大 */
+        }
+        .screenshots {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            align-items: center;
+        }
+        .screenshots img {
+            width: 160px; /* 缩小图片 */
+            height: auto;
+            border-radius: 8px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .screenshots img:hover {
+            transform: scale(1.05); /* 图片悬停时放大 */
+        }
+        .description {
+            padding: 20px;
+            text-align: justify;
+            color: #444;
         }
         .lightbox {
             display: none;
@@ -117,17 +165,23 @@
             background: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            opacity: 0; /* 初始透明度为0 */
+            transition: opacity 0.3s ease; /* 平滑过渡 */
         }
         .lightbox img {
             max-width: 90%;
             max-height: 90%;
             border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transform: scale(0); /* 初始缩放 */
+            transition: transform 0.3s ease; /* 平滑放大 */
         }
         .lightbox.show {
             display: flex;
-            opacity: 1;
+            opacity: 1; /* 显示时透明度为1 */
+        }
+        .lightbox.show img {
+            transform: scale(1); /* 放大 */
         }
     </style>
 </head>
@@ -148,6 +202,17 @@
                 下载
             </button>
         </div>
+        <div class="screenshots">
+            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/cWtqgrKE1SZIDbP.png')">
+                <img src="https://s2.loli.net/2024/11/23/cWtqgrKE1SZIDbP.png" alt="截图1">
+            </a>
+            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/yezXVfTrZJW7wc5.png')">
+                <img src="https://s2.loli.net/2024/11/23/yezXVfTrZJW7wc5.png" alt="截图2">
+            </a>
+            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/WsIbhmVdxHytLuK.png')">
+                <img src="https://s2.loli.net/2024/11/23/WsIbhmVdxHytLuK.png" alt="截图3">
+            </a>
+        </div>
         <div class="description">
             <h2>应用描述</h2>
             <p>多功能应用，集成了许多有意思的功能和游戏，旨在提高用户的日常效率和娱乐体验。</p>
@@ -159,22 +224,48 @@
     </div>
 
     <script>
-        let errorCount = parseInt(localStorage.getItem('errorCount')) || 0; // 错误次数
-        let blockDownloadUntil = parseInt(localStorage.getItem('blockDownloadUntil')) || null; // 禁止下载的时间
+        let errorCount = localStorage.getItem('errorCount') ? parseInt(localStorage.getItem('errorCount')) : 0; // 错误次数
+        let blockDownloadUntil = localStorage.getItem('blockDownloadUntil') ? parseInt(localStorage.getItem('blockDownloadUntil')) : null; // 禁止下载的时间
+        let currentAlert = null; // 当前显示的 alert
 
         window.onload = () => {
             setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
-            }, 500);
+                document.getElementById('loader').style.display = 'none'; // 隐藏加载动画
+                document.getElementById('content').style.display = 'block'; // 显示内容
+            }, 500); // 500ms后移除遮罩
         };
 
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.classList.add('show'); // 显示光箱
+            setTimeout(() => {
+                img.style.transform = 'scale(1)'; // 放大动画
+            }, 10); // 确保动画触发
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.style.transform = 'scale(0)'; // 收缩动画
+            setTimeout(() => {
+                lightbox.classList.remove('show'); // 隐藏光箱
+            }, 300); // 等待动画完成
+        }
+
         function showAlert(message) {
-            alert(message);
+            if (currentAlert) {
+                clearTimeout(currentAlert); // 清除之前的 alert
+            }
+            currentAlert = setTimeout(() => {
+                alert(message);
+                currentAlert = null; // 重置当前 alert
+            }, 0);
         }
 
         function handleDownload() {
-            const currentTime = Date.now();
+            const currentTime = new Date().getTime();
 
             // 检查是否被禁止下载
             if (blockDownloadUntil && currentTime < blockDownloadUntil) {
@@ -197,10 +288,12 @@
                 return;
             }
 
+            // 解析用户输入
             const parsedAnswer = parseInt(userAnswer);
             if (!isNaN(parsedAnswer) && parsedAnswer === answer) {
                 window.location.href = 'https://www.123865.com/s/adRijv-8gOR'; // 下载链接
-                errorCount = 0; // 正确答案后重置错误计数
+                // 成功后重置错误计数
+                errorCount = 0; 
                 localStorage.setItem('errorCount', errorCount); // 更新错误次数
             } else {
                 errorCount++;
@@ -209,15 +302,10 @@
 
                 if (errorCount >= 5) {
                     blockDownloadUntil = currentTime + 30000; // 禁止下载30秒
-                    localStorage.setItem('blockDownloadUntil', blockDownloadUntil);
+                    localStorage.setItem('blockDownloadUntil', blockDownloadUntil); // 保存禁止下载时间
                     showAlert('错误次数过多，请30秒后重试');
                 }
             }
-        }
-
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.remove('show');
         }
     </script>
 </body>
