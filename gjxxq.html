@@ -10,17 +10,19 @@
             margin: 0;
             padding: 20px;
             background-color: #f0f2f5;
-            overflow-x: hidden; /* 防止横向滚动 */
+            /* 移除全局溢出设置 */
         }
         .container {
-            max-width: auto;
+            max-width: 800px;
             margin: auto;
             background: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            overflow: hidden; /* 防止垂直溢出 */
             padding: 20px;
             animation: slideIn 0.5s forwards;
+            /* 添加水平溢出隐藏 */
+            overflow-x: hidden;
         }
         @keyframes slideIn {
             from {
@@ -145,51 +147,15 @@
             </button>
         </div>
         <div class="screenshots">
-            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/cWtqgrKE1SZIDbP.png')">
-                <img src="https://s2.loli.net/2024/11/23/cWtqgrKE1SZIDbP.png" alt="截图1">
+            <a href="#" onclick="openLightbox('https://example.com/screenshot1.png')">
+                <img src="https://example.com/screenshot1_thumb.png" alt="截图1">
             </a>
-            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/yezXVfTrZJW7wc5.png')">
-                <img src="https://s2.loli.net/2024/11/23/yezXVfTrZJW7wc5.png" alt="截图2">
+            <a href="#" onclick="openLightbox('https://example.com/screenshot2.png')">
+                <img src="https://example.com/screenshot2_thumb.png" alt="截图2">
             </a>
-            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/WsIbhmVdxHytLuK.png')">
-                <img src="https://s2.loli.net/2024/11/23/WsIbhmVdxHytLuK.png" alt="截图3">
+            <a href="#" onclick="openLightbox('https://example.com/screenshot3.png')">
+                <img src="https://example.com/screenshot3_thumb.png" alt="截图3">
             </a>
         </div>
         <div class="description">
-            <h2>应用描述</h2>
-            <p>多功能应用，集成了许多有意思的功能和游戏，旨在提高用户的日常效率和娱乐体验。</p>
-        </div>
-    </div>
-
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <img id="lightbox-img" src="" alt="放大图">
-    </div>
-
-    <script>
-        function openLightbox(src) {
-            document.getElementById('lightbox-img').src = src;
-            document.getElementById('lightbox').style.display = 'flex';
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').style.display = 'none';
-        }
-
-        function startVerification() {
-            const num1 = Math.floor(Math.random() * 100);
-            const num2 = Math.floor(Math.random() * 100);
-            const operator = Math.random() < 0.5 ? '+' : '-';
-            const question = `${num1} ${operator} ${num2}`;
-            const answer = operator === '+' ? num1 + num2 : num1 - num2;
-
-            const userAnswer = prompt(`请解答以下问题以继续下载:\n${question}`);
-
-            if (parseInt(userAnswer) === answer) {
-                window.location.href = 'https://www.123865.com/s/adRijv-8gOR'; // 下载链接
-            } else {
-                alert('答案错误，请重试。');
-            }
-        }
-    </script>
-</body>
-</html>
+            <h2>应用描
