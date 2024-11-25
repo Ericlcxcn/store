@@ -83,6 +83,7 @@
             transform: translateX(-100%);
             animation: slideIn 0.5s forwards;
             animation-delay: 0.6s;
+            padding: 10px 0; /* 添加内边距以确保文本不贴边 */
         }
         .divider hr {
             border: 0;
@@ -91,11 +92,25 @@
             margin: 0;
         }
         .divider span {
-            background: white;
+            background: #f4f4f4; /* 修改为 #f4f4f4 */
             padding: 0 10px;
             position: relative;
             top: -12px; /* 使文字显现于线条上方 */
             color: #999;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            margin-top: 20px;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
         }
         @keyframes slideIn {
             to {
@@ -112,21 +127,27 @@
 
 <div class="app-container">
     <div class="app-card">
-        <img src="https://s2.loli.net/2024/11/23/IwXgrC6QYD75VZA.png"  alt="工具箱">
+        <img src="https://s2.loli.net/2024/11/23/IwXgrC6QYD75VZA.png" alt="工具箱">
         <div>
             <h3>工具箱</h3>
             <p>版本号: v1.3.5</p>
         </div>
-        <a href="gjxxq.html">查看详情</a>
+        <a href="https://main.winterstore.us.kg/gjxxq.html" target="_blank">查看详情</a>
     </div>
     <!-- 在此处添加更多应用 -->
-    
 </div>
+
 <div class="divider">
     <hr>
     <span>暂无更多</span>
     <hr>
 </div>
+
+<div class="footer">
+    <p>友情链接:</p>
+    <a href="https://main.wintermine.us.kg" target="_blank">Winter工作室主页</a>
+</div>
+
 <script>
     // 使应用卡片在加载时有动画效果
     const cards = document.querySelectorAll('.app-card');
