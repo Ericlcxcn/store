@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>应用商店详情页 - 记事本</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .loader {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: relative;
+            animation: pulse 1.5s infinite;
+        }
+        .loader::before, .loader::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            animation: wave 1.5s infinite ease-in-out;
+        }
+        .loader::before {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 123, 255, 0.3);
+        }
+        .loader::after {
+            width: 70%;
+            height: 70%;
+            background: rgba(0, 123, 255, 0.5);
+            top: 15%;
+            left: 15%;
+            animation-delay: 0.75s;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        @keyframes wave {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        .container {
+            width: 75%;
+            height: 90%;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            padding: 20px;
+            animation: slideIn 0.5s forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 40px; /* 图标大小 */
+            height: auto;
+            cursor: pointer;
+            margin-right: 10px; /* 图标与标题之间的间距 */
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #333;
+            flex-grow: 1; /* 使标题占据剩余空间 */
+        }
+        .back-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #007bff;
+            margin-right: 10px; /* 返回按钮与图标之间的间距 */
+        }
+        .back-button:hover {
+            color: #0056b3;
+        }
+        .download-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px; /* 下载按钮与标题之间的间距 */
+        }
+        .download-button:hover {
+            background-color: #0056b3;
+        }
+        .screenshots {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            align-items: center;
+        }
+        .screenshots img {
+            width: 160px;
+            height: auto;
+            border-radius: 8px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .screenshots img:hover {
+            transform: scale(1.05);
+        }
+        .description {
+            padding: 20px;
+            text-align: justify;
+            color: #444;
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+        .lightbox.show {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox.show img {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="loader" id="loader"></div>
+    <div class="container" id="content" style="display: none;">
+        <div class="header">
+            <button class="back-button" onclick="window.location.href='https://main.winterstore.us.kg'">←</button>
+            <img src="https://s2.loli.net/2024/11/27/VLq6Bg5ecWT2wn9.png" alt="应用图标" onclick="shareLink()">
+            <h1>记事本</h1>
+            <button class="download-button" onclick="handleDownload()">
+                下载
+            </button>
+        </div>
+        <div class="screenshots">
+            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/cWtqgrKE1SZIDbP.png'); return false;">
+                <img src="https://s2.loli.net/2024/11/27/Wfcqh47rlV6QJZu.png" alt="截图1">
+            </a>
+            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/yezXVfTrZJW7wc5.png'); return false;">
+                <img src="https://s2.loli.net/2024/11/27/hUJ8BIpilTw9VGD.png" alt="截图2">
+            </a>
+            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/WsIbhmVdxHytLuK.png'); return false;">
+                <img src="https://s2.loli.net/2024/11/27/CW9uoGhRYJfPLXy.png" alt="截图3">
+            </a>
+        </div>
+        <div class="description">
+            <h2>应用描述</h2>
+            <p>一个记事本应用，将自己容易忘记或者重要的事情记录在里面吧～。</p>
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="放大图">
+    </div>
+
+    <script>
+        let errorCount = localStorage.getItem('errorCount') ? parseInt(localStorage.getItem('errorCount')) : 0;
+        let blockDownloadUntil = localStorage.getItem('blockDownloadUntil') ? parseInt(localStorage.getItem('blockDownloadUntil')) : null;
+
+        window.onload = () => {
+            const loader = document.getElementById('loader');
+            const content = document.getElementById('content');
+            setTimeout(() => {
+                loader.style.display = 'none';
+                content.style.display = 'block';
+            }, 1000); // 所有元素加载完成后一秒移除加载动画
+        };
+
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+
+            // 确保光箱可见
+            lightbox.style.display = 'flex';
+            lightbox.style.opacity = 0;
+
+            // 使用 setTimeout 确保光箱显示后再启动动画
+            setTimeout(() => {
+                lightbox.style.opacity = 1; // 逐渐显示光箱
+                img.style.transform = 'scale(1)'; // 放大图片
+            }, 10);
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.style.transform = 'scale(0)';
+            lightbox.style.opacity = 0; // 逐渐隐藏光箱
+
+            setTimeout(() => {
+                lightbox.style.display = 'none'; // 隐藏光箱
+            }, 300); // 等待动画完成后再隐藏光箱
+        }
+
+        function showAlert(message) {
+            alert(message);
+        }
+
+        function shareLink() {
+            const url = 'https://main.winterstore.us.kg/notebook.html';
+            navigator.clipboard.writeText(url).then(() => {
+                showAlert('分享链接已复制到剪贴板！');
+            }).catch(err => {
+                console.error('复制失败:', err);
+                showAlert('分享链接复制失败，请手动复制。');
+            });
+        }
+
+        function handleDownload() {
+            const currentTime = new Date().getTime();
+
+            if (blockDownloadUntil && currentTime < blockDownloadUntil) {
+                const remainingTime = Math.ceil((blockDownloadUntil - currentTime) / 1000);
+                showAlert(`错误次数过多，请 ${remainingTime} 秒后重试`);
+                return;
+            }
+
+            const num1 = Math.floor(Math.random() * 100);
+            const num2 = Math.floor(Math.random() * 100);
+            const operator = Math.random() < 0.5 ? '+' : '-';
+            const question = `${num1} ${operator} ${num2}`;
+            const answer = operator === '+' ? num1 + num2 : num1 - num2;
+
+            const userAnswer = prompt(`请解答以下问题以继续下载:\n${question}`);
+
+            if (userAnswer === null) {
+                showAlert('您已取消验证。');
+                return;
+            }
+
+            const parsedAnswer = parseInt(userAnswer);
+            if (!isNaN(parsedAnswer) && parsedAnswer === answer) {
+                window.location.href = 'https://www.123865.com/s/adRijv-5GOR';
+                errorCount = 0;
+                localStorage.setItem('errorCount', errorCount);
+            } else {
+                errorCount++;
+                localStorage.setItem('errorCount', errorCount);
+                showAlert('答案错误，请重试。');
+
+                if (errorCount >= 5) {
+                    blockDownloadUntil = currentTime + 30000;
+                    localStorage.setItem('blockDownloadUntil', blockDownloadUntil);
+                    showAlert('错误次数过多，请30秒后重试');
+                }
+            }
+        }
+
+        // 处理返回按钮事件
+        window.addEventListener('popstate', function(event) {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.style.display === 'flex') {
+                closeLightbox();
+                event.preventDefault(); // 阻止返回到上一个页面
+            } else {
+                window.history.back(); // 正常返回上一个页面
+            }
+        });
+    </script>
+</body>
+</html>
