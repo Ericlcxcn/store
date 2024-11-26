@@ -208,20 +208,26 @@
             const img = document.getElementById('lightbox-img');
             img.src = src;
 
-            // 确保光箱可见后再触发放大动画
-            lightbox.classList.add('show');
-            img.onload = () => {
-                img.style.transform = 'scale(1)';
-            };
+            // 确保光箱可见
+            lightbox.style.display = 'flex';
+            lightbox.style.opacity = 0;
+
+            // 使用 setTimeout 确保光箱显示后再启动动画
+            setTimeout(() => {
+                lightbox.style.opacity = 1; // 逐渐显示光箱
+                img.style.transform = 'scale(1)'; // 放大图片
+            }, 10);
         }
 
         function closeLightbox() {
             const lightbox = document.getElementById('lightbox');
             const img = document.getElementById('lightbox-img');
             img.style.transform = 'scale(0)';
+            lightbox.style.opacity = 0; // 逐渐隐藏光箱
+
             setTimeout(() => {
-                lightbox.classList.remove('show');
-            }, 300);
+                lightbox.style.display = 'none'; // 隐藏光箱
+            }, 300); // 等待动画完成后再隐藏光箱
         }
 
         function showAlert(message) {
@@ -281,7 +287,7 @@
         // 处理返回按钮事件
         window.addEventListener('popstate', function(event) {
             const lightbox = document.getElementById('lightbox');
-            if (lightbox.classList.contains('show')) {
+            if (lightbox.style.display === 'flex') {
                 closeLightbox();
                 event.preventDefault(); // 阻止返回到上一个页面
             } else {
