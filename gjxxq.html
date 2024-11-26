@@ -93,13 +93,6 @@
         .back-button:hover {
             color: #0056b3;
         }
-        .header p {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 10px 0;
-            color: #555;
-        }
         .download-button {
             background-color: #007bff;
             color: white;
@@ -177,13 +170,13 @@
             </button>
         </div>
         <div class="screenshots">
-            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/cWtqgrKE1SZIDbP.png')">
+            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/cWtqgrKE1SZIDbP.png'); return false;">
                 <img src="https://s2.loli.net/2024/11/23/cWtqgrKE1SZIDbP.png" alt="截图1">
             </a>
-            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/yezXVfTrZJW7wc5.png')">
+            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/yezXVfTrZJW7wc5.png'); return false;">
                 <img src="https://s2.loli.net/2024/11/23/yezXVfTrZJW7wc5.png" alt="截图2">
             </a>
-            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/WsIbhmVdxHytLuK.png')">
+            <a href="#" onclick="openLightbox('https://s2.loli.net/2024/11/23/WsIbhmVdxHytLuK.png'); return false;">
                 <img src="https://s2.loli.net/2024/11/23/WsIbhmVdxHytLuK.png" alt="截图3">
             </a>
         </div>
@@ -202,20 +195,24 @@
         let blockDownloadUntil = localStorage.getItem('blockDownloadUntil') ? parseInt(localStorage.getItem('blockDownloadUntil')) : null;
 
         window.onload = () => {
+            const loader = document.getElementById('loader');
+            const content = document.getElementById('content');
             setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
-            }, 500);
+                loader.style.display = 'none';
+                content.style.display = 'block';
+            }, 1000); // 所有元素加载完成后一秒移除加载动画
         };
 
         function openLightbox(src) {
             const lightbox = document.getElementById('lightbox');
             const img = document.getElementById('lightbox-img');
             img.src = src;
+
+            // 确保光箱可见后再触发放大动画
             lightbox.classList.add('show');
-            setTimeout(() => {
+            img.onload = () => {
                 img.style.transform = 'scale(1)';
-            }, 10);
+            };
         }
 
         function closeLightbox() {
@@ -280,6 +277,17 @@
                 }
             }
         }
+
+        // 处理返回按钮事件
+        window.addEventListener('popstate', function(event) {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('show')) {
+                closeLightbox();
+                event.preventDefault(); // 阻止返回到上一个页面
+            } else {
+                window.history.back(); // 正常返回上一个页面
+            }
+        });
     </script>
 </body>
 </html>
