@@ -5,164 +5,213 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Winter应用商店</title>
     <style>
+        :root {
+            --primary: #6C9BCF;
+            --secondary: #4B6587;
+            --accent: #FFD95A;
+            --bg: #F8F6F4;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            overflow-x: hidden; /* 防止横向滚动 */
+            background: var(--bg);
+            color: #2D4356;
         }
         header {
-            background: #007bff;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 15px;
+            padding: 4rem 1rem;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transform: translateX(-100%);
-            animation: slideIn 0.5s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 新增标题流动光效 */
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.2) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            animation: lightFlow 4s infinite;
+        }
+        @keyframes lightFlow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(400%); }
+        }
+        /* 标题文字动画 */
+        header h1 {
+            position: relative;
+            display: inline-block;
+            animation: textFloat 3s ease-in-out infinite;
+        }
+        @keyframes textFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
         .app-container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 10px;
-            border-radius: 8px;
-            background: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transform: translateX(-100%);
-            animation: slideIn 0.5s forwards;
-            animation-delay: 0.2s;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 修改：将300px改为250px */
+            gap: 1.5rem; /* 修改：将2rem改为1.5rem */
         }
         .app-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1rem; /* 修改：将1.5rem改为1rem */
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
-            transition: background 0.2s;
-            transform: translateX(-100%);
-            animation: slideIn 0.5s forwards;
-            animation-delay: 0.4s;
-        }
-        .app-card:last-child {
-            border-bottom: none; /* 去掉最后一项的边框 */
+            flex-direction: column;
+            min-height: 180px; /* 修改：将220px改为180px */
+            position: relative;
+            overflow: hidden;
         }
         .app-card:hover {
-            background: #f1f1f1;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+        }
+        .app-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px 0 0 4px;
         }
         .app-card img {
-            width: 60px;
-            height: 60px;
-            border-radius: 5px;
-            margin-right: 15px;
+            width: 60px; /* 修改：将80px改为60px */
+            height: 60px; /* 修改：将80px改为60px */
+            border-radius: 12px;
+            margin-bottom: 0.5rem; /* 修改：将1rem改为0.5rem */
         }
         .app-card h3 {
-            font-size: 20px;
-            margin: 0;
-            color: #333;
+            font-size: 1.2rem; /* 修改：将1.4rem改为1.2rem */
+            margin: 0 0 0.5rem;
+            color: var(--secondary);
         }
         .app-card p {
-            font-size: 14px;
+            font-size: 0.85rem; /* 修改：将0.9rem改为0.85rem */
             color: #666;
-            margin: 5px 0;
+            margin: 0.3rem 0;
+            flex-grow: 1;
         }
-        .app-card a {
+        .version {
             display: inline-block;
-            background: #007bff;
+            background: var(--accent);
+            color: var(--secondary);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem; /* 修改：将0.85rem改为0.75rem */
+            font-weight: 600;
+            margin-bottom: 0.5rem; /* 修改：将1rem改为0.5rem */
+        }
+        /* 按钮位置和样式调整 */
+        .app-card a {
+            display: inline-flex;
+            align-items: center;
+            background: var(--primary);
             color: white;
-            padding: 8px 12px;
+            padding: 0.6rem 1.2rem; /* 修改：将0.8rem 1.5rem改为0.6rem 1.2rem */
+            border-radius: 8px;
             text-decoration: none;
-            border-radius: 5px;
-            margin-left: auto;
-            transition: background 0.2s;
+            margin-top: auto;
+            align-self: flex-end;
+            transition: all 0.3s ease;
         }
         .app-card a:hover {
-            background: #0056b3;
+            background: var(--secondary);
+            transform: translateX(5px);
+        }
+        /* 向右箭头样式 */
+        .app-card a::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-left: 0.8rem;
+            border-right: 2px solid white;
+            border-top: 2px solid white;
+            transform: rotate(45deg);
+            transition: transform 0.3s ease;
+        }
+        .app-card a:hover::after {
+            transform: rotate(45deg) translateX(3px);
         }
         .divider {
-            margin: 20px 0;
-            text-align: center;
-            transform: translateX(-100%);
-            animation: slideIn 0.5s forwards;
-            animation-delay: 0.6s;
-            padding: 10px 0; /* 添加内边距以确保文本不贴边 */
-        }
-        .divider hr {
-            border: 0;
-            height: 1px;
-            background: #ddd;
-            margin: 0;
-        }
-        .divider span {
-            background: #f4f4f4; /* 修改为 #f4f4f4 */
-            padding: 0 10px;
             position: relative;
-            top: -12px; /* 使文字显现于线条上方 */
-            color: #999;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0,
+                transparent 10px,
+                var(--primary) 10px,
+                var(--primary) 20px
+            );
+            margin: 3rem auto;
+            width: 60%;
         }
         .footer {
             text-align: center;
-            padding: 20px;
-            background-color: #f4f4f4;
-            margin-top: 20px;
-        }
-        .footer a {
-            color: #007bff;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .footer a:hover {
-            text-decoration: underline;
+            padding: 2rem;
+            background: rgba(0,0,0,0.03);
+            margin-top: 4rem;
         }
         @keyframes slideIn {
-            to {
-                transform: translateX(0);
-            }
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        header, .app-card, .divider {
+            animation: slideIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        .app-card {
+            animation-delay: 0.2s;
+        }
+        .divider {
+            animation-delay: 0.4s;
         }
     </style>
 </head>
 <body>
-
-<header>
-    <h1>Winter应用商店</h1>
-</header>
-
-<div class="app-container">
-    <div class="app-card">
-        <img src="https://s2.loli.net/2024/11/23/IwXgrC6QYD75VZA.png" alt="工具箱">
-        <div>
-            <h3>工具箱</h3>
-            <p>版本号: v1.3.5</p>
+    <header>
+        <h1>Winter应用商店</h1>
+    </header>
+    <div class="app-container">
+        <div class="app-card">
+            <img src="https://s2.loli.net/2024/11/23/IwXgrC6QYD75VZA.png" alt="工具箱">
+            <div>
+                <h3>工具箱</h3>
+                <p>多功能工具集合，满足日常使用需求</p>
+                <span class="version">v1.3.5</span>
+            </div>
+            <a href="https://ericlcxcn.github.io/store/gjxxq.html">立即体验</a>
         </div>
-        <a href="https://ericlcxcn.github.io/store/gjxxq.html">查看详情</a>
-    </div>
-    <!-- 在此处添加更多应用 -->
-    <div class="app-card">
-        <img src="https://s2.loli.net/2024/11/27/VLq6Bg5ecWT2wn9.png" alt="记事本">
-        <div>
-            <h3>记事本</h3>
-            <p>版本号: v1.2.0</p>
+        <div class="app-card">
+            <img src="https://s2.loli.net/2024/11/27/VLq6Bg5ecWT2wn9.png" alt="记事本">
+            <div>
+                <h3>记事本</h3>
+                <p>简洁高效的文本记录工具</p>
+                <span class="version">v1.2.0</span>
+            </div>
+            <a href="https://ericlcxcn.github.io/store/notebook.html">立即体验</a>
         </div>
-        <a href="https://ericlcxcn.github.io/store/notebook.html">查看详情</a>
     </div>
-</div>
-
-<div class="divider">
-    <hr>
-    <span>暂无更多</span>
-    <hr>
-</div>
-
-<div class="footer">
-    <p>友情链接:</p>
-    <a href="https://ericlcxcn.github.io/mine/">Winter工作室主页</a>
-</div>
-
-<script>
-    // 使应用卡片在加载时有动画效果
-    const cards = document.querySelectorAll('.app-card');
-    cards.forEach((card, index) => {
-        card.style.animationDelay = `${0.4 + index * 0.1}s`; // 设置每个卡片的动画延迟
-    });
-</script>
-
+    <div class="divider"></div>
+    <div class="footer">
+        <p>友情链接: 
+            <a href="https://ericlcxcn.github.io/mine/">Winter工作室主页</a>
+        </p>
+    </div>
 </body>
 </html>
