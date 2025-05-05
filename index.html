@@ -3,202 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winter Store - 应用商店</title>
+    <title>Winter应用商店</title>
     <style>
-        /* 现代配色方案 */
-        :root {
-            --primary: #2196F3;
-            --secondary: #FF4081;
-            --background: #F5F7FA;
-            --card-bg: #FFFFFF;
-        }
-
         body {
-            font-family: 'Segoe UI', system-ui;
-            background: var(--background);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden; /* 防止横向滚动 */
+        }
+        header {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            animation: slideIn 0.5s forwards;
+        }
+        .app-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 10px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            animation: slideIn 0.5s forwards;
+            animation-delay: 0.2s;
+        }
+        .app-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            transition: background 0.2s;
+            transform: translateX(-100%);
+            animation: slideIn 0.5s forwards;
+            animation-delay: 0.4s;
+        }
+        .app-card:last-child {
+            border-bottom: none; /* 去掉最后一项的边框 */
+        }
+        .app-card:hover {
+            background: #f1f1f1;
+        }
+        .app-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        .app-card h3 {
+            font-size: 20px;
+            margin: 0;
+            color: #333;
+        }
+        .app-card p {
+            font-size: 14px;
+            color: #666;
+            margin: 5px 0;
+        }
+        .app-card a {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-left: auto;
+            transition: background 0.2s;
+        }
+        .app-card a:hover {
+            background: #0056b3;
+        }
+        .divider {
+            margin: 20px 0;
+            text-align: center;
+            transform: translateX(-100%);
+            animation: slideIn 0.5s forwards;
+            animation-delay: 0.6s;
+            padding: 10px 0; /* 添加内边距以确保文本不贴边 */
+        }
+        .divider hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
             margin: 0;
         }
-
-        /* 导航栏 */
-        .nav-bar {
-            background: var(--primary);
-            padding: 1rem 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-        }
-
-        .logo {
-            width: 120px;
-            height: 40px;
-            background: url('https://s2.loli.net/2024/11/28/example-logo.png') no-repeat;
-            background-size: contain;
-        }
-
-        /* 主内容区 */
-        .store-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 20px;
-        }
-
-        /* 应用卡片 */
-        .modern-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            margin-bottom: 2rem;
-        }
-
-        .modern-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-header {
+        .divider span {
+            background: #f4f4f4; /* 修改为 #f4f4f4 */
+            padding: 0 10px;
             position: relative;
-            height: 200px;
-            background: #e0e0e0;
+            top: -12px; /* 使文字显现于线条上方 */
+            color: #999;
         }
-
-        .screenshots {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            padding: 15px;
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            margin-top: 20px;
         }
-
-        .screenshot-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 8px;
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 10px;
         }
-
-        .card-body {
-            padding: 1.5rem;
+        .footer a:hover {
+            text-decoration: underline;
         }
-
-        .app-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            margin-right: 1rem;
-        }
-
-        /* 评分系统 */
-        .rating {
-            display: flex;
-            align-items: center;
-            margin: 0.5rem 0;
-        }
-
-        .star {
-            width: 20px;
-            height: 20px;
-            background: url('https://s2.loli.net/2024/11/28/star-filled.png') no-repeat;
-            margin-right: 2px;
-        }
-
-        /* 下载按钮 */
-        .download-btn {
-            background: var(--secondary);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 24px;
-            display: inline-flex;
-            align-items: center;
-            font-weight: 600;
-            transition: transform 0.2s;
-        }
-
-        .download-btn:hover {
-            transform: scale(1.05);
-        }
-
-        /* 分类导航 */
-        .category-nav {
-            display: flex;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .category-item {
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: rgba(0,0,0,0.05);
-            transition: all 0.3s;
-        }
-
-        .category-item.active {
-            background: var(--primary);
-            color: white;
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="nav-bar">
-        <div class="logo"></div>
-        <div class="search-bar">...</div>
-    </nav>
 
-    <!-- 主内容区 -->
-    <main class="store-container">
-        <!-- 分类导航 -->
-        <div class="category-nav">
-            <div class="category-item active">推荐</div>
-            <div class="category-item">游戏</div>
-            <div class="category-item">工具</div>
-            <div class="category-item">社交</div>
+<header>
+    <h1>Winter应用商店</h1>
+</header>
+
+<div class="app-container">
+    <div class="app-card">
+        <img src="https://s2.loli.net/2024/11/23/IwXgrC6QYD75VZA.png" alt="工具箱">
+        <div>
+            <h3>工具箱</h3>
+            <p>版本号: v1.3.5</p>
         </div>
+        <a href="https://ericlcxcn.github.io/store/gjxxq.html">查看详情</a>
+    </div>
+    <!-- 在此处添加更多应用 -->
+    <div class="app-card">
+        <img src="https://s2.loli.net/2024/11/27/VLq6Bg5ecWT2wn9.png" alt="记事本">
+        <div>
+            <h3>记事本</h3>
+            <p>版本号: v1.2.0</p>
+        </div>
+        <a href="https://ericlcxcn.github.io/store/notebook.html">查看详情</a>
+    </div>
+</div>
 
-        <!-- 应用卡片 -->
-        <article class="modern-card">
-            <div class="card-header">
-                <!-- 轮播图占位 -->
-                <img src="https://s2.loli.net/2024/11/28/featured-banner.png" 
-                     alt="应用横幅" 
-                     class="banner-img">
-            </div>
-            
-            <div class="card-body">
-                <div style="display: flex; align-items: center;">
-                    <img src="https://s2.loli.net/2024/11/28/app-icon.png" 
-                         alt="应用图标" 
-                         class="app-icon">
-                    <div>
-                        <h2>超级工具箱 Pro</h2>
-                        <div class="rating">
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star" style="background-image: url('star-half.png')"></div>
-                            <span style="margin-left: 8px;">4.5</span>
-                        </div>
-                    </div>
-                </div>
+<div class="divider">
+    <hr>
+    <span>暂无更多</span>
+    <hr>
+</div>
 
-                <div class="screenshots">
-                    <img src="https://s2.loli.net/2024/11/28/screen1.jpg" 
-                         class="screenshot-img"
-                         alt="截图1">
-                    <img src="https://s2.loli.net/2024/11/28/screen2.jpg" 
-                         class="screenshot-img"
-                         alt="截图2">
-                </div>
+<div class="footer">
+    <p>友情链接:</p>
+    <a href="https://ericlcxcn.github.io/mine/">Winter工作室主页</a>
+</div>
 
-                <a href="#" class="download-btn">
-                    <img src="download-icon.png" 
-                         alt="下载"
-                         style="width:20px;margin-right:8px;">
-                    免费下载
-                </a>
-            </div>
-        </article>
-    </main>
+<script>
+    // 使应用卡片在加载时有动画效果
+    const cards = document.querySelectorAll('.app-card');
+    cards.forEach((card, index) => {
+        card.style.animationDelay = `${0.4 + index * 0.1}s`; // 设置每个卡片的动画延迟
+    });
+</script>
+
 </body>
 </html>
